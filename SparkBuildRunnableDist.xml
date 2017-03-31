@@ -28,7 +28,7 @@ hadoopVer=2.7
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-ppc64el
 export PATH=$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH
 
-workDir=/home/jenkins/WeeklySparkValidation
+workDir=/root/WeeklySparkValidation
 
 echo -en &apos;Creating Workspace directory &apos; 
 mkdir -p ${workDirR}/workspace/${JOB_NAME}
