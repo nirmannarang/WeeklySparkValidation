@@ -1,10 +1,9 @@
 #!/bin/bash -l
 
-echo -en '#Configuring Jenkins VM and Remote Machines\n\n'
+echo -en '#Configuring Jenkins VM \n\n'
 
-echo -en '#Setting Work Dir in installer.properties\n\n'
+
 workdir=`pwd`
-sed -i "s#workDir=.*#workDir=${workdir}#g" installer.properties
 echo -en 'Work Directory of Jenkins VM is set to ' $workdir
 
 sed -i "s#workDir=.*#workDir=${workdir}#g" ConfigureRemoteMachines.xml
