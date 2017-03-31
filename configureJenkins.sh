@@ -6,7 +6,7 @@ echo -en '#Configuring Jenkins VM \n\n'
 workdir=`pwd`
 echo -en 'Work Directory of Jenkins VM is set to ' $workdir
 
-sed -i "s#workDir=.*#workDir=${workdir}#g" ConfigureRemoteMachines.xml
+sed -i "s#workDir=.*#workDir=${workdir}#g" SparkBuildRunnableDist.xml
 
 echo -en '\n\n'
 #sed -i '/workdir=/d' ./installer.properties
