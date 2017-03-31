@@ -31,8 +31,8 @@ export PATH=$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH
 workDir=/root/WeeklySparkValidation
 
 echo -en &apos;Creating Workspace directory &apos; 
-mkdir -p ${workDirR}/workspace/${JOB_NAME}
-cd ${workDirR}/workspace/${JOB_NAME}
+mkdir -p ${workDir}/workspace/${JOB_NAME}
+cd ${workDir}/workspace/${JOB_NAME}
 
 echo -en &apos;Spark branch to be cloned &apos; ${branchClone}
 echo -en &apos;\n\n&apos;
