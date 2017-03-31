@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers>
+    <hudson.triggers.TimerTrigger>
+      <spec>0 8 * * 1
+</spec>
+    </hudson.triggers.TimerTrigger>
+  </triggers>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+
+
+branchClone=2.0
+hiveBuild=FALSE
+hadoopVer=2.7
+
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-ppc64el
+export PATH=$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH
+
+workDir=/home/jenkins/WeeklySparkValidation
+
+echo -en &apos;Creating Workspace directory &apos; 
+mkdir -p ${workDirR}/workspace/${JOB_NAME}
+cd ${workDirR}/workspace/${JOB_NAME}
+
+echo -en &apos;Spark branch to be cloned &apos; ${branchClone}
+echo -en &apos;\n\n&apos;
+echo -en &apos;Hadoop version to be built for &apos; ${hadoopVer}
+echo -en &apos;\n\n&apos;
+
+
+if [ $hiveBuild == TRUE ]
+then
+  hiveFlag=with
+elif [ $hiveBuild == FALSE ]
+then
+  hiveFlag=without
+fi
+
+rm -rf spark
+
+git clone --recursive --depth 1 https://github.com/apache/spark.git -b branch-${branchClone}
+
+cd spark
+
+java -version
+
+if [ $hiveBuild == TRUE ]
+then
+  echo &quot; Building with Hive and JDBC Support \n &quot;
+  ./dev/make-distribution.sh --name custom-${branchClone}-spark --tgz -Psparkr -Phadoop-${hadoopVer} -Phive -Phive-thriftserver -Pyarn
+elif [ $hiveBuild == FALSE ]
+then
+  echo &quot; Building without Hive and JDBC Support \n &quot;
+  ./dev/make-distribution.sh --name custom-${branchClone}-spark --tgz -Psparkr -Phadoop-${hadoopVer} -Pyarn
+fi
+
+now=$(date +&quot;%d-%m-%Y_%H:%M:%S&quot;)
+
+cp /var/lib/jenkins/jobs/${JOB_NAME}/builds/${BUILD_NUMBER}/log ${workDir}/logs/${JOB_NAME}/${JOB_NAME}_${now}.log
+
+
+exit 0
+      </command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>

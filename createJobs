@@ -1,0 +1,8 @@
+#!/bin/bash -l
+
+workdir=`pwd`
+echo -en 'Creating logs directory jor job\n'
+mkdir -p ${workdir}/logs/SparkBuildRunnableDist
+echo -en 'Creating Jenkins Job SparkBuildRunnableDist\n'
+java -jar jenkins-cli.jar -noKeyAuth -s  http://localhost:8080/ create-job SparkBuildRunnableDist < SparkBuildRunnableDist.xml
+sed -i "s#workDir=.*#workDir=${workdir}#g" SparkBuildRunnableDist.xml
